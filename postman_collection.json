@@ -1,0 +1,242 @@
+{
+  "info": {
+    "name": "ExaminAI - AI-Powered Online Examination System",
+    "description": "Comprehensive Postman API collection for testing Auth, Admin, Teacher, Syllabus Processing, AI Question Generation, Exam Taking, and Results Analytics.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@exam.edu\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+          }
+        },
+        {
+          "name": "Login (Teacher)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"teacher@exam.edu\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+          }
+        },
+        {
+          "name": "Login (Student)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@exam.edu\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+          }
+        },
+        {
+          "name": "Get Profile (Me)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/auth/me", "host": ["{{baseUrl}}"], "path": ["api", "auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Admin Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/admin/dashboard", "host": ["{{baseUrl}}"], "path": ["api", "admin", "dashboard"] }
+          }
+        },
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/admin/users?role=all", "host": ["{{baseUrl}}"], "path": ["api", "admin", "users"] }
+          }
+        },
+        {
+          "name": "Get Academic Departments",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/admin/departments", "host": ["{{baseUrl}}"], "path": ["api", "admin", "departments"] }
+          }
+        },
+        {
+          "name": "Get System Settings",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/admin/settings", "host": ["{{baseUrl}}"], "path": ["api", "admin", "settings"] }
+          }
+        },
+        {
+          "name": "View Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/admin/audit-logs", "host": ["{{baseUrl}}"], "path": ["api", "admin", "audit-logs"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Teacher & AI Question Generation",
+      "item": [
+        {
+          "name": "Teacher Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{teacherToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/teacher/dashboard", "host": ["{{baseUrl}}"], "path": ["api", "teacher", "dashboard"] }
+          }
+        },
+        {
+          "name": "Get Syllabuses",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{teacherToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/teacher/syllabuses", "host": ["{{baseUrl}}"], "path": ["api", "teacher", "syllabuses"] }
+          }
+        },
+        {
+          "name": "Generate Questions with AI",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{teacherToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"unitNumbers\": [1, 2],\n  \"questionTypes\": [\"mcq\", \"short_answer\", \"true_false\", \"numerical\"],\n  \"count\": 5,\n  \"difficultyDistribution\": {\n    \"easy\": 30,\n    \"medium\": 50,\n    \"hard\": 20\n  },\n  \"language\": \"English\",\n  \"includeExplanations\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/teacher/syllabuses/{{syllabusId}}/generate-questions", "host": ["{{baseUrl}}"], "path": ["api", "teacher", "syllabuses", "{{syllabusId}}", "generate-questions"] }
+          }
+        },
+        {
+          "name": "Get Questions in Question Bank",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{teacherToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/teacher/questions?status=all", "host": ["{{baseUrl}}"], "path": ["api", "teacher", "questions"] }
+          }
+        },
+        {
+          "name": "Approve Draft Question",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{teacherToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/teacher/questions/{{questionId}}/approve", "host": ["{{baseUrl}}"], "path": ["api", "teacher", "questions", "{{questionId}}", "approve"] }
+          }
+        },
+        {
+          "name": "Get Examinations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{teacherToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/teacher/exams", "host": ["{{baseUrl}}"], "path": ["api", "teacher", "exams"] }
+          }
+        },
+        {
+          "name": "Review Submissions & AI Grading",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{teacherToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/teacher/exams/{{examId}}/attempts", "host": ["{{baseUrl}}"], "path": ["api", "teacher", "exams", "{{examId}}", "attempts"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Student & Exam Player",
+      "item": [
+        {
+          "name": "Student Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/student/dashboard", "host": ["{{baseUrl}}"], "path": ["api", "student", "dashboard"] }
+          }
+        },
+        {
+          "name": "Get Student Available Exams",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/student/exams", "host": ["{{baseUrl}}"], "path": ["api", "student", "exams"] }
+          }
+        },
+        {
+          "name": "Start Examination Attempt",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/student/exams/{{examId}}/start", "host": ["{{baseUrl}}"], "path": ["api", "student", "exams", "{{examId}}", "start"] }
+          }
+        },
+        {
+          "name": "Autosave Answer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"answer\": \"B\",\n  \"isMarkedForReview\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/student/attempts/{{attemptId}}/answers/{{questionId}}", "host": ["{{baseUrl}}"], "path": ["api", "student", "attempts", "{{attemptId}}", "answers", "{{questionId}}"] }
+          }
+        },
+        {
+          "name": "Submit Examination",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/student/attempts/{{attemptId}}/submit", "host": ["{{baseUrl}}"], "path": ["api", "student", "attempts", "{{attemptId}}", "submit"] }
+          }
+        },
+        {
+          "name": "Get Student Results",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/student/results", "host": ["{{baseUrl}}"], "path": ["api", "student", "results"] }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "token", "value": "" },
+    { "key": "adminToken", "value": "" },
+    { "key": "teacherToken", "value": "" },
+    { "key": "studentToken", "value": "" },
+    { "key": "syllabusId", "value": "" },
+    { "key": "examId", "value": "" },
+    { "key": "attemptId", "value": "" },
+    { "key": "questionId", "value": "" }
+  ]
+}
